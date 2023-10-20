@@ -5,9 +5,11 @@ import com.flownex.libecono.SerialPort;
 import com.flownex.libecono.serialport.SerialHelper;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,10 +24,12 @@ public class MainActivity extends AppCompatActivity {
     int parity = 0;
     int flowcon = 0;
     int flag = 0;
+
+    FileDescriptor devfd;
     private SerialPort mserial = new SerialPort();
 //    public OutputStream mOutputstream = new ;
 //    public InputStream mInputstream;
-    public SerialHelper mserialhelp;
+//    public SerialHelper mserialhelp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,23 +47,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                try {
-                    mserialhelp.setPort(dev);
-                    mserialhelp.setBaudRate(baud);
-                    mserialhelp.setStopBits(stop);
-                    mserialhelp.setDataBits(data);
-                    mserialhelp.setParity(parity);
-                    mserialhelp.setFlowCon(flowcon);
-
-                    mserialhelp.open();
+//                mserialhelp.setPort(dev);
+//                mserialhelp.setBaudRate(baud);
+//                mserialhelp.setStopBits(stop);
+//                mserialhelp.setDataBits(data);
+//                mserialhelp.setParity(parity);
+//                mserialhelp.setFlowCon(flowcon);
+//
+//                mserialhelp.isOpen();
 //                    mserial.
-//                    this.mserial =new SerialPort(dev,baud,stop,data,parity,flowcon,flag);
-//                    this.mInputstream = this.mserial.getInputStream();
-//                    this.mOutputstream = this.mserial.getOutputStream();
-
+                try {
+                    devfd = mserial.rs485_open(dev,baud,stop,data,parity,flowcon,flag);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                Log.d("opened fd = ", devfd.toString());
+
+
+//                    this.mInputstream = this.mserial.getInputStream();
+//                    this.mOutputstream = this.mserial.getOutputStream();
+
             }
         });
 
