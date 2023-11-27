@@ -13,10 +13,10 @@
         android:text="Open"
         app:layout_constraintBottom_toTopOf="@+id/Write_b"
         app:layout_constraintEnd_toStartOf="@+id/Read_b"
-        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintHorizontal_bias="0.682"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.972" />
+        app:layout_constraintVertical_bias="0.959" />
 
     <Button
         android:id="@+id/Read_b"
@@ -50,7 +50,6 @@
         android:text="Close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
         app:layout_constraintVertical_bias="0.215" />
 
     <TextView
