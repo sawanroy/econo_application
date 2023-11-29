@@ -1,5 +1,7 @@
 package com.flownex.test_application;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.flownex.libecono.SerialPort;
 
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 //    public OutputStream mOutputstream = new ;
 //    public InputStream mInputstream;
 //    public SerialHelper mserialhelp;
-String bytesToHex(byte[] in) {
+String bytesToHex(@NonNull byte[] in) {
     final StringBuilder builder = new StringBuilder();
 
     for (byte b : in) {
@@ -51,18 +53,16 @@ String bytesToHex(byte[] in) {
 
 
         Button1.setOnClickListener(new View.OnClickListener() {
-
-
-
-
             @Override
             public void onClick(View view) {
+                System.out.println("OnClick: ");
                 try {
                     devfd = mserial.rs485_open(dev,baud,stop,data,parity,flowcon,flag);
+                    Log.d("opened fd = ", devfd.toString());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                Log.d("opened fd = ", devfd.toString());
+//                Log.d("opened fd = ", devfd.toString());
 
 
 //                    this.mInputstream = this.mserial.getInputStream();
@@ -76,22 +76,30 @@ String bytesToHex(byte[] in) {
             public void onClick(View view) {
                 Log.d("Button2", "Button2 Clicked");
                 byte[] buf = new byte[100];
-                int Timeout = 100000;
+                int Timeout = 10000; ///
                 // Assuming 'devfd' is a valid FileDescriptor object
                 if(devfd != null) {
                 int rcv = mserial.Rs485_read(devfd, buf, buf.length, Timeout);
+//                    String text = new String(buf, StandardCharsets.UTF_8);
+//                    System.out.println("buffer " + text);
+                    String text = new String(buf, StandardCharsets.UTF_8);
+                    System.out.println("Converted Text: " + text);
+                    System.out.println("buffer " + text);
+
                 if (rcv < 0) {
                     outputTextView.setText("READ ERROR");
+
                 } else {
                     outputTextView.setText("READ SUCCESS");
 
-                    String text = new String(buf, StandardCharsets.UTF_8);
+//                    String text = new String(buf, StandardCharsets.UTF_8);
                     System.out.println("Converted Text: " + text);
 
                     outputTextView.setText("READ DATA :" + text);
                     System.out.println("buffer " + text);
-//                    outputTextView.setText("READ DATA :" + bytesToHex(buf));
-//                    System.out.println("buffer " + bytesToHex(buf));
+
+//                   outputTextView.setText("READ DATA :" + bytesToHex(buf));
+//                   System.out.println("buffer " + bytesToHex(buf));
                 }
             } else {
                 outputTextView.setText("PORT NOT OPEN");
@@ -106,7 +114,7 @@ String bytesToHex(byte[] in) {
         Button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String str = "Sawan";
+                String str = "hello123344";
                 byte[] RS485_buf=str.getBytes();//{(byte) 0xABCB};//str.getBytes();
                 if(devfd != null) {
                     int rcv = mserial.RS485_Write(devfd,RS485_buf,RS485_buf.length);
